@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weblog</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="d-flex flex-row al"><p>number of users : </p>
+            <p id="count"></p>
+          </div>
+          <div class="collapse navbar-collapse d-flex flex-row justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav  mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <p>hello <span id="user"></span></p>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href="/logout"><li class=" btn btn-danger">Logout</li></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <div class="bg-success text-center p-4 text-light h4">hi, in this page you are see other people text</div>
+    <p id="list" class="bg-info p-lg-3">
+
+    </p>
+</body>
+<script>
+    let list = "";
+    document.querySelector("#list").innerHTML = list;
+    fetch("http://localhost:3000/listofPost")
+    .then(data => data = data.json())
+    .then(data => 
+    data.forEach(element => {
+        document.querySelector("#list").innerHTML += ` <div class="m-3 d-flex flex-column align-items-start justify-content-between bg-light p-2">
+<div class="align-self-center h5">` + "title:  " + element["title"] + `</div><div class="border border-dark w-100 h-75 h6 p-2">` + element["text"] + `</div><div class="align-self-end">` + "from: " + element["username"]  + "</div></div>"; 
+    }))
+    fetch("http://localhost:3000/count")
+    .then(data => data = data.json())
+    .then(data => {
+       document.querySelector("#count").innerHTML = data;
+    })
+    fetch("http://localhost:3000/sendUser")
+    .then(data => data = data.json())
+    .then(data => {
+        console.log(data)
+       document.querySelector("#user").innerHTML = data['userId'];
+    })
+    
+
+</script>
+</html>
+
